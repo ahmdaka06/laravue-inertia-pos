@@ -1,10 +1,10 @@
 <?php
-
-use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductContoller;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 
@@ -55,5 +55,9 @@ Route::prefix('apps')->group(function() {
         //route resource categories
         Route::resource('/categories', CategoryController::class, ['as' => 'apps'])
             ->middleware('permission:categories.index|categories.create|categories.edit|categories.delete');
+
+        //route resource products
+        Route::resource('/products', ProductContoller::class, ['as' => 'apps'])
+            ->middleware('permission:products.index|products.create|products.edit|products.delete');
     });
 });

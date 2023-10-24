@@ -1,46 +1,52 @@
 <template>
     <Head>
-        <title>Permissions - Aplikasi Kasir</title>
+        <title>Product - Aplikasi Kasir</title>
     </Head>
     <main class="c-main">
         <div class="container-fluid">
             <div class="fade-in">
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- flash message -->
-                        <div v-if="$page.props.flash.success" class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Success!</strong> {{ $page.props.flash.success }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        <!-- flash message -->
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
                         <div class="card border-0 rounded-3 shadow border-top-purple">
                             <div class="card-header">
-                                <span class="font-weight-bold"><i class="fa fa-key"></i> PERMISSIONS</span>
+                                <span class="font-weight-bold"><i class="fa fa-shopping-bag"></i> PRODUCTS</span>
                             </div>
                             <div class="card-body">
                                 <form @submit.prevent="handleSearch">
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" v-model="search" placeholder="search by permission name...">
+                                        <Link href="/apps/products/create" v-if="hasAnyPermission(['products.create'])" class="btn btn-primary input-group-text"> <i class="fa fa-plus-circle me-2"></i> NEW</Link>
+                                        <input type="text" class="form-control" v-model="search" placeholder="search by product title...">
+
                                         <button class="btn btn-primary input-group-text" type="submit"> <i class="fa fa-search me-2"></i> SEARCH</button>
+
                                     </div>
                                 </form>
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Permission Name</th>
+                                            <th scope="col">Barcode</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Buy Price</th>
+                                            <th scope="col">Sell Price</th>
+                                            <th scope="col">Stock</th>
+                                            <th scope="col" style="width:20%">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(permission, index) in permissions.data" :key="index">
-                                            <td>{{ permission.name }}</td>
+                                        <tr v-for="(product, index) in products.data" :key="index">
+                                            <td class="text-center">{{ product.barcode }}</td>
+                                            <td>{{ product.title }}</td>
+                                            <td>Rp. {{ formatPrice(product.buy_price) }}</td>
+                                            <td>Rp. {{ formatPrice(product.sell_price) }}</td>
+                                            <td>{{ product.stock }}</td>
+                                            <td class="text-center">
+                                                <Link href="#" v-if="hasAnyPermission(['categories.edit'])" class="btn btn-success btn-sm me-2"><i class="fa fa-pencil-alt me-1"></i> EDIT</Link>
+                                                <button v-if="hasAnyPermission(['products.delete'])" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> DELETE</button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <Pagination :links="permissions.links" align="end"/>
+                                <Pagination :links="products.links" align="end"/>
                             </div>
                         </div>
                     </div>
@@ -70,18 +76,19 @@
         //layout
         layout: LayoutApp,
 
-        //register component
+        //register components
         components: {
             Head,
             Link,
-            Pagination
+            Pagination,
         },
 
         //props
         props: {
-            permissions: Object,
+            products: Object,
         },
 
+        //composition API
         setup() {
 
             //define state search
@@ -89,7 +96,8 @@
 
             //define method search
             const handleSearch = () => {
-                Inertia.get('/apps/permissions', {
+                Inertia.get('/apps/products', {
+
                     //send params "q" with value from state "search"
                     q: search.value,
                 });
@@ -99,7 +107,6 @@
                 search,
                 handleSearch,
             }
-
         }
     }
 </script>
