@@ -64,9 +64,6 @@
     //import inerita adapter
     import { Inertia } from '@inertiajs/inertia';
 
-    //import sweet alert2
-    import Swal from 'sweetalert2';
-
     export default {
         //layout
         layout: LayoutApp,
