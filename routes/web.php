@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DashboardController;
@@ -50,5 +51,9 @@ Route::prefix('apps')->group(function() {
         //route resource users
         Route::resource('/users', UserController::class, ['as' => 'apps'])
             ->middleware('permission:users.index|users.create|users.edit|users.delete');
+
+        //route resource categories
+        Route::resource('/categories', CategoryController::class, ['as' => 'apps'])
+            ->middleware('permission:categories.index|categories.create|categories.edit|categories.delete');
     });
 });

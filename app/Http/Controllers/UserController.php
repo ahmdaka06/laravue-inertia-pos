@@ -80,7 +80,7 @@ class UserController extends Controller
         //redirect
         return redirect()->route('apps.users.index')->with([
             'success' => 'User created successfully!.',
-        ]);;
+        ]);
     }
 
     /**
