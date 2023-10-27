@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +25,7 @@ class Transaction extends Model
 
     public function cashier(): BelongsTo
     {
-        return $this->belongsTo(Cashier::class);
+        return $this->belongsTo(User::class);
     }
 
     public function customer(): BelongsTo
@@ -37,7 +38,7 @@ class Transaction extends Model
         return $this->hasMany(TransactionDetail::class);
     }
 
-    public function profit(): HasMany
+    public function profits(): HasMany
     {
         return $this->hasMany(Profit::class);
     }

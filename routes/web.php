@@ -2,10 +2,12 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductContoller;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -59,5 +61,29 @@ Route::prefix('apps')->group(function() {
         //route resource products
         Route::resource('/products', ProductContoller::class, ['as' => 'apps'])
             ->middleware('permission:products.index|products.create|products.edit|products.delete');
+
+        //route resource customers
+        Route::resource('/customers', CustomerController::class, ['as' => 'apps'])
+            ->middleware('permission:customers.index|customers.create|customers.edit|customers.delete');
+
+        Route::group(['prefix' => 'transactions'], function() {
+            //route transaction
+            Route::get('/', [TransactionController::class, 'index'])->name('apps.transactions.index');
+
+            //route transaction searchProduct
+            Route::post('/searchProduct', [TransactionController::class, 'searchProduct'])->name('apps.transactions.searchProduct');
+
+            //route transaction addToCart
+            Route::post('/addToCart', [TransactionController::class, 'addToCart'])->name('apps.transactions.addToCart');
+
+            //route transaction destroyCart
+            Route::post('/destroyCart', [TransactionController::class, 'destroyCart'])->name('apps.transactions.destroyCart');
+
+            //route transaction store
+            Route::post('/store', [TransactionController::class, 'store'])->name('apps.transactions.store');
+
+            //route transaction print
+            Route::get('/print', [TransactionController::class, 'print'])->name('apps.transactions.print');
+        });
     });
 });

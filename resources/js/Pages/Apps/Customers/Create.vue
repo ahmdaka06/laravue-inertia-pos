@@ -1,7 +1,6 @@
 <template>
-
     <Head>
-        <title>Add New Category - Aplikasi Kasir</title>
+        <title>Add New Customer - Aplikasi Kasir</title>
     </Head>
     <main class="c-main">
         <div class="container-fluid">
@@ -10,36 +9,38 @@
                     <div class="col-md-12">
                         <div class="card border-0 rounded-3 shadow border-top-purple">
                             <div class="card-header">
-                                <span class="font-weight-bold"><i class="fa fa-folder"></i> ADD NEW CATEGORY</span>
+                                <span class="font-weight-bold"><i class="fa fa-user-circle"></i> ADD NEW CUSTOMER</span>
                             </div>
                             <div class="card-body">
 
                                 <form @submit.prevent="submit">
-
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <div class="mb-3">
+                                                <label class="fw-bold">Full Name</label>
+                                                <input class="form-control" v-model="form.name" :class="{ 'is-invalid': errors.name }" type="text" placeholder="Full Name">
+                                                <small v-if="errors.name" class="text-danger">
+                                                    {{ errors.name }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <div class="mb-3">
+                                                <label class="fw-bold">No. Telp</label>
+                                                <input class="form-control" v-model="form.phone_number" :class="{ 'is-invalid': errors.phone_number }" type="number" placeholder="No. Telp">
+                                                <small v-if="errors.phone_number" class="text-danger">
+                                                    {{ errors.phone_number }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-group mb-3">
-                                        <label class="fw-bold">Image</label>
-                                        <input class="form-control" @input="form.image = $event.target.files[0]" :class="{ 'is-invalid': errors.image }" type="file">
-                                        <small v-if="errors.image" class="text-danger">
-                                            {{ errors.image }}
+                                        <label class="fw-bold">Address</label>
+                                        <textarea class="form-control" v-model="form.address" :class="{ 'is-invalid': errors.address }" type="text" rows="4" placeholder="Address"></textarea>
+                                        <small v-if="errors.address" class="text-danger">
+                                            {{ errors.address }}
                                         </small>
                                     </div>
-
-                                    <div class="form-group mb-3">
-                                        <label class="fw-bold">Category Name</label>
-                                        <input class="form-control" v-model="form.name" :class="{ 'is-invalid': errors.name }" type="text" placeholder="Category Name">
-                                        <small v-if="errors.name" class="text-danger">
-                                            {{ errors.name }}
-                                        </small>
-                                    </div>
-
-                                    <div class="form-group mb-3">
-                                        <label class="fw-bold">Description</label>
-                                        <textarea class="form-control" v-model="form.description" :class="{ 'is-invalid': errors.description }" type="text" rows="4" placeholder="Description"></textarea>
-                                        <small v-if="errors.description" class="text-danger">
-                                            {{ errors.description }}
-                                        </small>
-                                    </div>
-
                                     <div class="row">
                                         <div class="col-12">
                                             <button class="btn btn-primary shadow-sm rounded-sm" type="submit">SAVE</button>
@@ -58,7 +59,7 @@
 </template>
 
 <script>
-    //import layout App
+    //import layout
     import LayoutApp from '../../../Layouts/App.vue';
 
     //import Heade and Link from Inertia
@@ -94,19 +95,19 @@
             //define form with reactive
             const form = reactive({
                 name: '',
-                image: '',
-                description: ''
+                phone_number: '',
+                address: ''
             });
 
             //method "submit"
             const submit = () => {
 
                 //send data to server
-                Inertia.post('/apps/categories', {
+                Inertia.post('/apps/customers', {
                     //data
                     name: form.name,
-                    image: form.image,
-                    description: form.description
+                    phone_number: form.phone_number,
+                    address: form.address
                 });
 
             }
@@ -119,6 +120,7 @@
         }
     }
 </script>
+
 <style>
 
 </style>

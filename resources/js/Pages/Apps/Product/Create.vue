@@ -38,8 +38,8 @@
                                                     <option value="">Pilih kategori...</option>
                                                     <option v-for="(category, index) in categories" :key="index" :value="category.id">{{ category.name }}</option>
                                                 </select>
-                                                <small v-if="errors.category" class="text-danger">
-                                                    {{ errors.category }}
+                                                <small v-if="errors.category_id" class="text-danger">
+                                                    {{ errors.category_id }}
                                                 </small>
                                             </div>
                                         </div>
@@ -69,9 +69,9 @@
                                     <div class="mb-3">
                                         <label class="fw-bold">Description</label>
                                         <textarea class="form-control" v-model="form.description" :class="{ 'is-invalid': errors.description }" type="text" rows="4" placeholder="Description"></textarea>
-                                    </div>
-                                    <div v-if="errors.description" class="alert alert-danger">
-                                        {{ errors.description }}
+                                        <small v-if="errors.category_id" class="text-danger">
+                                            {{ errors.description }}
+                                        </small>
                                     </div>
 
                                     <div class="row">
@@ -79,18 +79,18 @@
                                             <div class="mb-3">
                                                 <label class="fw-bold">Buy Price</label>
                                                 <input class="form-control" v-model="form.buy_price" :class="{ 'is-invalid': errors.buy_price }" type="number" placeholder="Buy Price">
-                                            </div>
-                                            <div v-if="errors.buy_price" class="alert alert-danger">
-                                                {{ errors.buy_price }}
+                                                <small v-if="errors.buy_price" class="text-danger">
+                                                    {{ errors.buy_price }}
+                                                </small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="fw-bold">Sell Price</label>
                                                 <input class="form-control" v-model="form.sell_price" :class="{ 'is-invalid': errors.sell_price }" type="number" placeholder="Sell Price">
-                                            </div>
-                                            <div v-if="errors.sell_price" class="alert alert-danger">
-                                                {{ errors.sell_price }}
+                                                <small v-if="errors.sell_price" class="text-danger">
+                                                    {{ errors.sell_price }}
+                                                </small>
                                             </div>
                                         </div>
                                     </div>

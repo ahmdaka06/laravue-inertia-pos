@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <title>Product - Aplikasi Kasir</title>
+        <title>Customers - Aplikasi Kasir</title>
     </Head>
     <main class="c-main">
         <div class="container-fluid">
@@ -19,13 +19,13 @@
                     <div class="col-md-12">
                         <div class="card border-0 rounded-3 shadow border-top-purple">
                             <div class="card-header">
-                                <span class="font-weight-bold"><i class="fa fa-shopping-bag"></i> PRODUCTS</span>
+                                <span class="font-weight-bold"><i class="fa fa-user-circle"></i> CUSTOMERS</span>
                             </div>
                             <div class="card-body">
                                 <form @submit.prevent="handleSearch">
                                     <div class="input-group mb-3">
-                                        <Link href="/apps/products/create" v-if="hasAnyPermission(['products.create'])" class="btn btn-primary input-group-text"> <i class="fa fa-plus-circle me-2"></i> NEW</Link>
-                                        <input type="text" class="form-control" v-model="search" placeholder="search by product title...">
+                                        <Link href="/apps/customers/create" v-if="hasAnyPermission(['customers.create'])" class="btn btn-primary input-group-text"> <i class="fa fa-plus-circle me-2"></i> NEW</Link>
+                                        <input type="text" class="form-control" v-model="search" placeholder="search by customer name...">
 
                                         <button class="btn btn-primary input-group-text" type="submit"> <i class="fa fa-search me-2"></i> SEARCH</button>
 
@@ -34,37 +34,25 @@
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Barcode</th>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Buy Price</th>
-                                            <th scope="col">Sell Price</th>
-                                            <th scope="col">Stock</th>
+                                            <th scope="col">Full Name</th>
+                                            <th scope="col">No. Telp</th>
+                                            <th scope="col">Address</th>
                                             <th scope="col" style="width:20%">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(product, index) in products.data" :key="index">
+                                        <tr v-for="(customer, index) in customers.data" :key="index">
+                                            <td>{{ customer.name }}</td>
+                                            <td>{{ customer.no_telp }}</td>
+                                            <td>{{ customer.address }}</td>
                                             <td class="text-center">
-                                                <Barcode
-                                                    :value="product.barcode"
-                                                    :format="'CODE39'"
-                                                    :lineColor="'#000'"
-                                                    :width="5"
-                                                    :height="50"
-                                                />
-                                            </td>
-                                            <td>{{ product.title }}</td>
-                                            <td>Rp. {{ formatPrice(product.buy_price) }}</td>
-                                            <td>Rp. {{ formatPrice(product.sell_price) }}</td>
-                                            <td>{{ product.stock }}</td>
-                                            <td class="text-center">
-                                                <Link :href="`/apps/products/${product.id}/edit`" v-if="hasAnyPermission(['categories.edit'])" class="btn btn-success btn-sm me-2"><i class="fa fa-pencil-alt me-1"></i> EDIT</Link>
-                                                <button @click.prevent="destroy(product.id)"  v-if="hasAnyPermission(['products.delete'])" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> DELETE</button>
+                                                <Link :href="`/apps/customers/${customer.id}/edit`" v-if="hasAnyPermission(['customers.edit'])" class="btn btn-success btn-sm me-2"><i class="fa fa-pencil-alt me-1"></i> EDIT</Link>
+                                                <button @click.prevent="destroy(customer.id)" v-if="hasAnyPermission(['customers.delete'])" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> DELETE</button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <Pagination :links="products.links" align="end"/>
+                                <Pagination :links="customers.links" align="end"/>
                             </div>
                         </div>
                     </div>
@@ -93,9 +81,6 @@
     //import sweet alert2
     import Swal from 'sweetalert2';
 
-    //import component barcode
-    import Barcode from '../../../Components/Barcode.vue';
-
     export default {
         //layout
         layout: LayoutApp,
@@ -104,13 +89,12 @@
         components: {
             Head,
             Link,
-            Pagination,
-            Barcode
+            Pagination
         },
 
         //props
         props: {
-            products: Object,
+            customers: Object,
         },
 
         //composition API
@@ -121,17 +105,15 @@
 
             //define method search
             const handleSearch = () => {
-                Inertia.get('/apps/products', {
+                Inertia.get('/apps/customers', {
 
                     //send params "q" with value from state "search"
                     q: search.value,
                 });
             }
 
-            //method "destroy"
+            //method destroy
             const destroy = (id) => {
-
-                //show confirm
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -144,13 +126,11 @@
                 .then((result) => {
                     if (result.isConfirmed) {
 
-                        //send to server
-                        Inertia.delete(`/apps/products/${id}`);
+                        Inertia.delete(`/apps/customers/${id}`);
 
-                        //show alert
                         Swal.fire({
                             title: 'Deleted!',
-                            text: 'Product deleted successfully.',
+                            text: 'Customer deleted successfully.',
                             icon: 'success',
                             timer: 2000,
                             showConfirmButton: false,

@@ -69,7 +69,9 @@ class ProductContoller extends Controller
         ]);
 
         //redirect
-        return redirect()->route('apps.products.index');
+        return redirect()->route('apps.products.index')->with([
+            'success' => 'Product created successfully!.',
+        ]);
     }
 
     public function edit(Product $product)
@@ -134,7 +136,9 @@ class ProductContoller extends Controller
         ]);
 
         //redirect
-        return redirect()->route('apps.products.index');
+        return redirect()->route('apps.products.index')->with([
+            'success' => 'Product updated successfully!.',
+        ]);
     }
 
     public function destroy($id)

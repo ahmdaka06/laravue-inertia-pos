@@ -27,17 +27,11 @@ class CategoryController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return Inertia::render('Apps/Categories/Create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         /**
@@ -64,17 +58,11 @@ class CategoryController extends Controller
         return redirect()->route('apps.categories.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Category $category)
     {
         return Inertia::render('Apps/Categories/Edit', [
@@ -82,9 +70,6 @@ class CategoryController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Category $category)
     {
         /**
@@ -120,13 +105,10 @@ class CategoryController extends Controller
 
         //redirect
         return redirect()->route('apps.categories.index')->with([
-            'success' => 'Category created successfully!.',
+            'success' => 'Category updated successfully!.',
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //find by ID
