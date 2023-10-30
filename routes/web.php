@@ -6,7 +6,9 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductContoller;
+use App\Http\Controllers\ProfitController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 
@@ -84,6 +86,34 @@ Route::prefix('apps')->group(function() {
 
             //route transaction print
             Route::get('/print', [TransactionController::class, 'print'])->name('apps.transactions.print');
+        });
+
+        Route::group(['prefix' => 'sales'], function() {
+            //route sales index
+            Route::get('/', [SaleController::class, 'index'])->middleware('permission:sales.index')->name('apps.sales.index');
+
+            //route sales filter
+            Route::get('/filter', [SaleController::class, 'filter'])->name('apps.sales.filter');
+
+            //route sales export excel
+            Route::get('/export', [SaleController::class, 'export'])->name('apps.sales.export');
+
+            //route sales print pdf
+            Route::get('/pdf', [SaleController::class, 'pdf'])->name('apps.sales.pdf');
+        });
+
+        Route::group(['prefix' => 'profits'], function() {
+            //route profits index
+            Route::get('/', [ProfitController::class, 'index'])->middleware('permission:profits.index')->name('apps.profits.index');
+
+            //route profits filter
+            Route::get('/filter', [ProfitController::class, 'filter'])->name('apps.profits.filter');
+
+            //route profits export
+            Route::get('/export', [ProfitController::class, 'export'])->name('apps.profits.export');
+
+            //route profits pdf
+            Route::get('/pdf', [ProfitController::class, 'pdf'])->name('apps.profits.pdf');
         });
     });
 });
